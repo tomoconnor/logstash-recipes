@@ -1,0 +1,38 @@
+#!/bin/bash
+
+LOGFILE=/var/log/subscriber.log
+APPFILE=/var/www/admin.secretsales.com/releases/current/workers/subscriber.php
+
+start() {
+
+    /usr/bin/java -jar /usr/local/share/logstash/logstash.jar agent --config /usr/local/share/logstash/shipper.conf --log /var/log/logstash.log > /var/log/logstash.log 2>&1 &
+}
+stop() {
+ pid=$(ps aux|awk '/logstash.jar/ {print $2}'|head -1)
+ kill $pid 
+}
+restart() {
+    stop
+    sleep 5
+    start
+}
+
+case "$1" in
+    start)
+        shift
+        start
+        ;;
+    stop)
+        shift
+        stop
+        ;;
+    restart)
+        shift
+        restart
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|restart}"
+        exit 2
+esac
+
+exit $?

@@ -1,8 +1,5 @@
 #!/bin/bash
 
-LOGFILE=/var/log/subscriber.log
-APPFILE=/var/www/admin.secretsales.com/releases/current/workers/subscriber.php
-
 start() {
 
     /usr/bin/java -jar /usr/local/share/logstash/logstash.jar agent --config /usr/local/share/logstash/shipper.conf --log /var/log/logstash.log > /var/log/logstash.log 2>&1 &
